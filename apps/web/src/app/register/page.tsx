@@ -1,17 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Gunakan next/navigation
-import api from '@/utils/api'; // Sesuaikan jalur impor dengan konfigurasi tsconfig.json
+import { useRouter } from 'next/navigation';
+import api from '@/utils/api';
 
 export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null); // Tambahkan tipe untuk error state
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => { // Tambahkan tipe untuk parameter e
     e.preventDefault();
     try {
       const response = await api.post('/api/auth/register', {
@@ -21,7 +21,7 @@ export default function Register() {
       });
       console.log('Registration successful:', response.data);
       router.push('/');
-    } catch (error) {
+    } catch (error: any) { // Gunakan tipe any untuk error
       console.error('Error registering:', error.response ? error.response.data : error.message);
       setError(error.response ? error.response.data.message : error.message);
     }

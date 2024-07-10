@@ -1,7 +1,7 @@
 import express, { json, urlencoded, Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { PORT } from './config';
-import { AuthRouter } from './routers/auth.router';
+import authRouter from './routers/auth.router'; // Pastikan mengimpor dengan benar
 
 export default class App {
   private app: Express;
@@ -43,13 +43,11 @@ export default class App {
   }
 
   private routes(): void {
-    const authRouter = new AuthRouter();
-
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
     });
 
-    this.app.use('/api/auth', authRouter.getRouter());
+    this.app.use('/api/auth', authRouter); // Pastikan mengimpor dan menggunakan dengan benar
   }
 
   public start(): void {

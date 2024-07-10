@@ -1,22 +1,12 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
-export class AuthRouter {
-  private router: Router;
-  private authController: AuthController;
+const router = Router();
+const authController = new AuthController();
 
-  constructor() {
-    this.router = Router();
-    this.authController = new AuthController();
-    this.initRoutes();
-  }
+router.post('/register', authController.register);
+router.post('/login', authController.login);
+router.get('/me', authenticateToken, authController.me);
 
-  private initRoutes(): void {
-    this.router.post('/register', this.authController.register);
-    this.router.post('/login', this.authController.login);
-  }
-
-  public getRouter(): Router {
-    return this.router;
-  }
-}
+export default router; // Pastikan menggunakan ekspor default
