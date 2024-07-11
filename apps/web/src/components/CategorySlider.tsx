@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 interface Slide {
-  src: string;
+  imageUrl: string;
   alt: string;
   name: string;
 }
@@ -21,15 +21,19 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
   const totalSlides = slides.length;
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + slidesToShow >= totalSlides ? 0 : prevIndex + slidesToShow
-    );
+    if (currentIndex + slidesToShow < totalSlides) {
+      setCurrentIndex(currentIndex + slidesToShow);
+    } else {
+      setCurrentIndex(0);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - slidesToShow < 0 ? totalSlides - slidesToShow : prevIndex - slidesToShow
-    );
+    if (currentIndex - slidesToShow >= 0) {
+      setCurrentIndex(currentIndex - slidesToShow);
+    } else {
+      setCurrentIndex(Math.max(totalSlides - slidesToShow, 0));
+    }
   };
 
   const getTransformValue = () => {
@@ -44,7 +48,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: getTransformValue() }}
         >
-          {slides.map((slide: any, index) => (
+          {slides.map((slide, index) => (
             <div
               key={index}
               className="flex-shrink-0 w-1/4 p-2"

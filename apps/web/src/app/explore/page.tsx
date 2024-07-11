@@ -1,4 +1,3 @@
-// explore/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,8 +5,24 @@ import { FaSearch, FaMapMarkerAlt, FaTags } from 'react-icons/fa';
 import CategorySlider from '../../components/CategorySlider';
 import axios from 'axios';
 
+interface Concert {
+  id: number;
+  name: string;
+  imageUrl: string;
+  date: string;
+  location: {
+    name: string;
+  };
+  category: {
+    name: string;
+  };
+}
+
 export default function Explore() {
-  const [concerts, setConcerts] = useState([]);
+  const [concerts, setConcerts] = useState<Concert[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -23,9 +38,24 @@ export default function Explore() {
     fetchConcerts();
   }, []);
 
-  const metalConcerts = concerts.filter(concert => concert.category.name === 'Metal');
-  const edmConcerts = concerts.filter(concert => concert.category.name === 'Electric Dance Music');
-  const popConcerts = concerts.filter(concert => concert.category.name === 'Pop');
+  const filteredConcerts = concerts.filter(concert => {
+    const matchesLocation = selectedLocation ? concert.location.name === selectedLocation : true;
+    const matchesCategory = selectedCategory ? concert.category.name === selectedCategory : true;
+    const matchesSearchQuery = concert.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesLocation && matchesCategory && matchesSearchQuery;
+  });
+
+  const mapToSlides = (concerts: Concert[]) => {
+    return concerts.map(concert => ({
+      imageUrl: concert.imageUrl,
+      alt: concert.name,
+      name: concert.name
+    }));
+  };
+
+  const metalConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Metal'));
+  const edmConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Electric Dance Music'));
+  const popConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Pop'));
 
   console.log('Metal concerts:', metalConcerts); // Log data
   console.log('EDM concerts:', edmConcerts); // Log data
@@ -41,6 +71,8 @@ export default function Explore() {
           <input
             type="text"
             placeholder="Search concerts..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full mt-2 p-2 border border-gray-300 rounded"
           />
         </div>
@@ -50,10 +82,20 @@ export default function Explore() {
           </h2>
           <ul className="space-y-2 mt-2">
             {locations.map((location, index) => (
-              <li key={index} className="hover:text-blue-600 cursor-pointer transition duration-300">
+              <li
+                key={index}
+                onClick={() => setSelectedLocation(location.name)}
+                className={`cursor-pointer transition duration-300 ${selectedLocation === location.name ? 'text-blue-600' : ''}`}
+              >
                 {location.name}
               </li>
             ))}
+            <li
+              onClick={() => setSelectedLocation(null)}
+              className={`cursor-pointer transition duration-300 ${selectedLocation === null ? 'text-blue-600' : ''}`}
+            >
+              All Locations
+            </li>
           </ul>
         </div>
         <div>
@@ -62,10 +104,20 @@ export default function Explore() {
           </h2>
           <ul className="space-y-2 mt-2">
             {categories.map((category, index) => (
-              <li key={index} className="hover:text-blue-600 cursor-pointer transition duration-300">
+              <li
+                key={index}
+                onClick={() => setSelectedCategory(category.name)}
+                className={`cursor-pointer transition duration-300 ${selectedCategory === category.name ? 'text-blue-600' : ''}`}
+              >
                 {category.name}
               </li>
             ))}
+            <li
+              onClick={() => setSelectedCategory(null)}
+              className={`cursor-pointer transition duration-300 ${selectedCategory === null ? 'text-blue-600' : ''}`}
+            >
+              All Categories
+            </li>
           </ul>
         </div>
       </aside>
@@ -89,7 +141,6 @@ const locations = [
   { name: 'Lampung' },
   { name: 'Malang' },
   { name: 'Makassar' },
-  { name: 'Manado' },
 ];
 
 const categories = [
