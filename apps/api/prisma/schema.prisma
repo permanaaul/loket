@@ -15,5 +15,36 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users") // if you want to use snake_case format
+  @@map("users")
+}
+
+model Concert {
+  id          Int      @id @default(autoincrement())
+  name        String
+  imageUrl    String
+  date        DateTime
+  locationId  Int
+  categoryId  Int
+  location    Location @relation(fields: [locationId], references: [id])
+  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("concerts")
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  name      String
+  concerts  Concert[]
+
+  @@map("locations")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  concerts  Concert[]
+
+  @@map("categories")
 }

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
@@ -17,18 +17,18 @@ interface CategorySliderProps {
 
 const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleColor = 'white' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const slidesToShow = 5; // Number of slides visible at a time
+  const slidesToShow = 4; // Number of slides visible at a time
   const totalSlides = slides.length;
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      (prevIndex + slidesToShow) % totalSlides
+      prevIndex + slidesToShow >= totalSlides ? 0 : prevIndex + slidesToShow
     );
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      (prevIndex - slidesToShow + totalSlides) % totalSlides
+      prevIndex - slidesToShow < 0 ? totalSlides - slidesToShow : prevIndex - slidesToShow
     );
   };
 
@@ -44,20 +44,21 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: getTransformValue() }}
         >
-          {slides.map((slide, index) => (
+          {slides.map((slide: any, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-1/5 p-2"
+              className="flex-shrink-0 w-1/4 p-2"
               style={{ flexBasis: `${100 / slidesToShow}%` }}
             >
               <div className="bg-black p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col items-center text-white">
                 <div className="relative w-full h-64 overflow-hidden mb-4">
                   <Image
-                    src={slide.src}
+                    src={slide.imageUrl}
                     alt={slide.alt}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
                     className="rounded-md"
+                    unoptimized
+                    priority
                   />
                 </div>
                 <h3 className="text-xl font-bold text-center text-white">{slide.name}</h3>
