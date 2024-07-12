@@ -1,9 +1,11 @@
+// Explore.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { FaSearch, FaMapMarkerAlt, FaTags } from 'react-icons/fa';
 import CategorySlider from '../../components/CategorySlider';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface Concert {
   id: number;
@@ -23,6 +25,7 @@ export default function Explore() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const router = useRouter();
 
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -49,17 +52,14 @@ export default function Explore() {
     return concerts.map(concert => ({
       imageUrl: concert.imageUrl,
       alt: concert.name,
-      name: concert.name
+      name: concert.name,
+      onClick: () => router.push(`/concertdetail?id=${concert.id}`), // Redirect to concert detail
     }));
   };
 
   const metalConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Metal'));
   const edmConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Electric Dance Music'));
   const popConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Pop'));
-
-  console.log('Metal concerts:', metalConcerts); // Log data
-  console.log('EDM concerts:', edmConcerts); // Log data
-  console.log('Pop concerts:', popConcerts); // Log data
 
   return (
     <div className="min-h-screen bg-gray-100 flex">

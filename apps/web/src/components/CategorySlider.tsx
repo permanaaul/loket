@@ -1,3 +1,4 @@
+// CategorySlider.tsx
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +8,7 @@ interface Slide {
   imageUrl: string;
   alt: string;
   name: string;
+  onClick?: () => void;
 }
 
 interface CategorySliderProps {
@@ -21,19 +23,15 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
   const totalSlides = slides.length;
 
   const nextSlide = () => {
-    if (currentIndex + slidesToShow < totalSlides) {
-      setCurrentIndex(currentIndex + slidesToShow);
-    } else {
-      setCurrentIndex(0);
-    }
+    setCurrentIndex((prevIndex) =>
+      (prevIndex + slidesToShow) % totalSlides
+    );
   };
 
   const prevSlide = () => {
-    if (currentIndex - slidesToShow >= 0) {
-      setCurrentIndex(currentIndex - slidesToShow);
-    } else {
-      setCurrentIndex(Math.max(totalSlides - slidesToShow, 0));
-    }
+    setCurrentIndex((prevIndex) =>
+      (prevIndex - slidesToShow + totalSlides) % totalSlides
+    );
   };
 
   const getTransformValue = () => {
@@ -51,11 +49,12 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
           {slides.map((slide, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-1/4 p-2"
+              className="flex-shrink-0 w-1/5 p-2"
               style={{ flexBasis: `${100 / slidesToShow}%` }}
+              onClick={slide.onClick} // Add onClick
             >
-              <div className="bg-black p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col items-center text-white">
-                <div className="relative w-full h-64 overflow-hidden mb-4">
+              <div className="bg-black p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col items-center text-white hover:bg-gray-800 transition-colors">
+                <div className="relative w-full h-64 overflow-hidden mb-4 transform hover:scale-105 transition-transform duration-300">
                   <Image
                     src={slide.imageUrl}
                     alt={slide.alt}

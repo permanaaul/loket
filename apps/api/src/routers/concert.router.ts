@@ -6,6 +6,6 @@ const concertController = new ConcertController();
 
 router.get('/concerts', concertController.getConcerts);
 router.get('/concerts/:id', concertController.getConcertById);
-router.post('/concerts', concertController.createConcert); // Tambahkan route ini
+router.post('/concerts', concertController.createConcert);
 
 export default router;

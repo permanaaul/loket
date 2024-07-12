@@ -33,6 +33,11 @@ export class ConcertController {
         include: {
           category: true,
           location: true,
+          concertTickets: {
+            include: {
+              ticketType: true,
+            },
+          },
         },
       });
 

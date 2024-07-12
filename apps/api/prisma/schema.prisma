@@ -19,16 +19,17 @@ model User {
 }
 
 model Concert {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   imageUrl    String
   date        DateTime
   locationId  Int
   categoryId  Int
-  location    Location @relation(fields: [locationId], references: [id])
-  category    Category @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  location    Location    @relation(fields: [locationId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
+  concertTickets ConcertTicket[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@map("concerts")
 }
@@ -48,3 +49,24 @@ model Category {
 
   @@map("categories")
 }
+
+model TicketType {
+  id            Int             @id @default(autoincrement())
+  name          String
+  price         Float
+  concertTickets ConcertTicket[]
+
+  @@map("ticket_types")
+}
+
+model ConcertTicket {
+  id          Int       @id @default(autoincrement())
+  concertId   Int
+  ticketTypeId Int
+  availableSeats Int    
+  concert     Concert   @relation(fields: [concertId], references: [id])
+  ticketType  TicketType @relation(fields: [ticketTypeId], references: [id])
+
+  @@map("concert_tickets")
+}
+

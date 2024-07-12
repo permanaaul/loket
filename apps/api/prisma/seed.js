@@ -5,10 +5,12 @@ async function main() {
   console.log('Start seeding...');
 
   // Hapus semua data dari tabel
-  await prisma.user.deleteMany({});
+  await prisma.concertTicket.deleteMany({});
+  await prisma.ticketType.deleteMany({});
   await prisma.concert.deleteMany({});
   await prisma.location.deleteMany({});
   await prisma.category.deleteMany({});
+  await prisma.user.deleteMany({});
 
   // Seed Locations
   const locations = await prisma.location.createMany({
@@ -36,9 +38,19 @@ async function main() {
     ],
   });
 
+  // Seed Ticket Types
+  const ticketTypes = await prisma.ticketType.createMany({
+    data: [
+      { name: 'VIP', price: 5000000 },
+      { name: 'Platinum', price: 3000000 },
+      { name: 'Standard', price: 1500000 },
+    ],
+  });
+
   // Ambil ID lokasi dan kategori yang baru saja di-seed
   const allLocations = await prisma.location.findMany();
   const allCategories = await prisma.category.findMany();
+  const allTicketTypes = await prisma.ticketType.findMany();
 
   // Mapping nama lokasi dan kategori ke ID
   const locationMap = allLocations.reduce((map, location) => {
@@ -48,6 +60,11 @@ async function main() {
 
   const categoryMap = allCategories.reduce((map, category) => {
     map[category.name] = category.id;
+    return map;
+  }, {});
+
+  const ticketTypeMap = allTicketTypes.reduce((map, ticketType) => {
+    map[ticketType.name] = ticketType.id;
     return map;
   }, {});
 
@@ -86,9 +103,23 @@ async function main() {
       { name: 'Imagine Dragons', imageUrl: '/images/imaginedragons.jpg', date: new Date('2025-04-10T19:00:00.000Z'), locationId: locationMap['Makassar'], categoryId: categoryMap['Pop'] }
     ],
   });
-  console.log('Categories seeded:', categories);
-  console.log('Locations seeded:', locations);
+
+  const allConcerts = await prisma.concert.findMany();
+
+  // Seed Concert Tickets
+  await prisma.concertTicket.createMany({
+    data: allConcerts.flatMap(concert => [
+      { concertId: concert.id, ticketTypeId: ticketTypeMap['VIP'], availableSeats: 50 },
+      { concertId: concert.id, ticketTypeId: ticketTypeMap['Platinum'], availableSeats: 100 },
+      { concertId: concert.id, ticketTypeId: ticketTypeMap['Standard'], availableSeats: 200 },
+    ]),
+  });
+
+  console.log('Categories seeded:', allCategories);
+  console.log('Locations seeded:', allLocations);
+  console.log('Ticket Types seeded:', allTicketTypes);
   console.log('Concerts seeded:', concerts);
+  console.log('Concert Tickets seeded');
   console.log('Seeding finished.');
 }
 

@@ -64,14 +64,14 @@ export default function Home() {
                 <div className="text-7xl font-bold text-white absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                   {concert.rank}
                 </div>
-                <div className="relative w-72 h-40 mb-2 ml-12">
+                <Link href="/explore" className="relative w-72 h-40 mb-2 ml-12">
                   <Image
                     src={concert.src}
                     alt={concert.alt}
                     fill
                     className="rounded-md"
                   />
-                </div>
+                </Link>
                 <p className="text-white font-bold mt-2">{concert.name}</p>
               </div>
             ))}

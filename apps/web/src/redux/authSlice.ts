@@ -21,16 +21,21 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state, action: PayloadAction<User>) {
-      console.log('Payload User:', action.payload); // Log untuk memeriksa payload user
+      console.log('Payload User:', action.payload);
       state.user = action.payload;
       state.isAuthenticated = true;
     },
     logout(state) {
       state.user = null;
       state.isAuthenticated = false;
+      localStorage.removeItem('token');
+    },
+    setUser(state, action: PayloadAction<User>) {
+      state.user = action.payload;
+      state.isAuthenticated = true;
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setUser } = authSlice.actions;
 export default authSlice.reducer;
