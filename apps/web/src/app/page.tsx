@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const Slider = dynamic(() => import('react-slick'), { ssr: false });
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
 
 export default function Home() {
   const banners = [
@@ -30,11 +31,11 @@ export default function Home() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 300,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
   };
 
   return (
@@ -74,6 +75,57 @@ export default function Home() {
                 <p className="text-white font-bold mt-2">{concert.name}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-screen py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">Highlight Concert</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center">
+              <div className="relative w-full h-0 pb-[56.25%] mb-4">
+                <ReactPlayer
+                  url="https://youtu.be/Lpjcm1F8tY8?start=202"
+                  width="100%"
+                  height="100%"
+                  className="absolute top-0 left-0"
+                />
+              </div>
+              <p className="text-xl font-bold text-black">Martin Garrix</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="relative w-full h-0 pb-[56.25%] mb-4">
+                <ReactPlayer
+                  url="https://youtu.be/zSwqLsuJRY0?start=4104"
+                  width="100%"
+                  height="100%"
+                  className="absolute top-0 left-0"
+                  config={{
+                    youtube: {
+                      playerVars: { end: 4152 }
+                    }
+                  }}
+                />
+              </div>
+              <p className="text-xl font-bold text-black">Bring Me The Horizon</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="relative w-full h-0 pb-[56.25%] mb-4">
+                <ReactPlayer
+                  url="https://youtu.be/39OlTrhpt38?start=113"
+                  width="100%"
+                  height="100%"
+                  className="absolute top-0 left-0"
+                  config={{
+                    youtube: {
+                      playerVars: { end: 141 }
+                    }
+                  }}
+                />
+              </div>
+              <p className="text-xl font-bold text-black">Shawn Mendes</p>
+            </div>
           </div>
         </div>
       </div>
