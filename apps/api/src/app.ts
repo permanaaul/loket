@@ -3,6 +3,7 @@ import cors from 'cors';
 import { PORT } from './config';
 import authRouter from './routers/auth.router';
 import concertRouter from './routers/concert.router';
+import walletRouter from './routers/wallet.router';
 
 export default class App {
   private app: Express;
@@ -21,6 +22,7 @@ export default class App {
   }
 
   private handleError(): void {
+    // not found
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       if (req.path.includes('/api/')) {
         res.status(404).send('Not found!');
@@ -29,6 +31,7 @@ export default class App {
       }
     });
 
+    // error
     this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       if (req.path.includes('/api/')) {
         console.error('Error:', err.stack);
@@ -41,11 +44,12 @@ export default class App {
 
   private routes(): void {
     this.app.get('/api', (req: Request, res: Response) => {
-      res.send('Hello, Purwadhika Student API!');
+      res.send(`Hello, Purwadhika Student API!`);
     });
 
     this.app.use('/api/auth', authRouter);
-    this.app.use('/api', concertRouter);
+    this.app.use('/api', concertRouter); // Sesuaikan route dengan path '/api'
+    this.app.use('/api/wallet', walletRouter); // Pastikan route ini sudah benar
   }
 
   public start(): void {

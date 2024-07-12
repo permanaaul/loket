@@ -38,6 +38,13 @@ async function main() {
     ],
   });
 
+  // Seed Users
+  const users = await prisma.user.createMany({
+    data: [
+      { username: 'user1', email: 'user1@example.com', password: 'password1', wallet: 6000000}
+    ],
+  });
+
   // Seed Ticket Types
   const ticketTypes = await prisma.ticketType.createMany({
     data: [

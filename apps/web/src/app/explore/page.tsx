@@ -1,10 +1,9 @@
-// Explore.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { FaSearch, FaMapMarkerAlt, FaTags } from 'react-icons/fa';
 import CategorySlider from '../../components/CategorySlider';
-import axios from 'axios';
+import api from '../../utils/api';
 import { useRouter } from 'next/navigation';
 
 interface Concert {
@@ -30,7 +29,7 @@ export default function Explore() {
   useEffect(() => {
     const fetchConcerts = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts`);
+        const response = await api.get('api/concerts'); // Memanggil endpoint yang benar
         console.log('Fetched concerts:', response.data); // Log data
         setConcerts(response.data);
       } catch (error) {

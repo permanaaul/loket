@@ -4,7 +4,9 @@ interface User {
   id: number;
   username: string;
   email: string;
+  wallet: number; // Tambahkan properti wallet
 }
+
 
 interface AuthState {
   user: User | null;

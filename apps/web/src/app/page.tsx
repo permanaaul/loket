@@ -40,7 +40,9 @@ export default function Home() {
 
   return (
     <div className="w-full bg-cover bg-center flex flex-col items-center justify-center p-10">
-      <Slider {...settings} className="w-full max-w-7xl">
+      <h1 className="text-5xl font-bold text-black mt-8 mb-4">Welcome to Loket Musik</h1>
+      <p className="text-xl text-black mb-6">Your gateway to the best concerts</p>
+      <Slider {...settings} className="w-full max-w-7xl mb-12"> {/* Added margin bottom here */}
         {banners.map((banner, index) => (
           <div key={index} className="w-full h-[500px] relative">
             <Image
@@ -52,10 +54,8 @@ export default function Home() {
           </div>
         ))}
       </Slider>
-      <h1 className="text-5xl font-bold text-black mt-8 mb-4">Welcome to Loket Musik</h1>
-      <p className="text-xl text-black mb-6">Your gateway to the best concerts</p>
 
-      <div className="w-screen bg-black py-8">
+      <div className="w-screen bg-black py-8 mb-12"> {/* Added margin bottom here */}
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-white mb-4 text-center">Paling Laku Keras!</h2>
           <div className="flex justify-around items-center">
