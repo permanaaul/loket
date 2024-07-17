@@ -9,7 +9,7 @@ const secretKey = 'your_secret_key'; // Gantilah dengan kunci rahasia yang seben
 
 export class AuthController {
   public async register(req: Request, res: Response): Promise<void> {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body; // Tambahkan role dalam body permintaan
     
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -18,6 +18,7 @@ export class AuthController {
           username,
           email,
           password: hashedPassword,
+          role, 
         },
       });
 
@@ -44,8 +45,12 @@ export class AuthController {
         return;
       }
 
-      const token = jwt.sign({ userId: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
-      res.status(200).json({ token, user: { id: user.id, username: user.username, email: user.email } });
+      const token = jwt.sign(
+        { userId: user.id, username: user.username, role: user.role }, // Tambahkan role dalam token
+        secretKey,
+        { expiresIn: '1h' }
+      );
+      res.status(200).json({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } }); // Kembalikan role dalam respons
     } catch (error) {
       res.status(500).json({ message: 'Failed to login', error: (error as Error).message });
     }

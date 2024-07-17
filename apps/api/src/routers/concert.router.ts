@@ -1,11 +1,13 @@
-import { Router } from 'express';
+// concert.router.ts
+import express from 'express';
 import { ConcertController } from '../controllers/concert.controller';
+import { authorize } from '../middleware/role.middleware';
 
-const router = Router();
+const router = express.Router();
 const concertController = new ConcertController();
 
-router.get('/concerts', concertController.getConcerts); // Rute ini seharusnya menangani GET /api/concerts
+router.get('/concerts', concertController.getConcerts);
 router.get('/concerts/:id', concertController.getConcertById);
-router.post('/concerts', concertController.createConcert);
+router.post('/concerts', authorize(['ADMIN']), concertController.createConcert);
 
 export default router;

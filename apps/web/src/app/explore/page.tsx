@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FaSearch, FaMapMarkerAlt, FaTags } from 'react-icons/fa';
+import { FaSearch, FaMapMarkerAlt, FaTags, FaPlus } from 'react-icons/fa';
+import { Menu } from '@headlessui/react';
 import CategorySlider from '../../components/CategorySlider';
 import api from '../../utils/api';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 interface Concert {
   id: number;
@@ -19,25 +22,60 @@ interface Concert {
   };
 }
 
+interface Location {
+  id: number;
+  name: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
 export default function Explore() {
   const [concerts, setConcerts] = useState<Concert[]>([]);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const router = useRouter();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
     const fetchConcerts = async () => {
       try {
-        const response = await api.get('api/concerts'); // Memanggil endpoint yang benar
-        console.log('Fetched concerts:', response.data); // Log data
+        const response = await api.get('api/concerts');
+        console.log('Fetched concerts:', response.data);
         setConcerts(response.data);
       } catch (error) {
         console.error('Error fetching concerts:', error);
       }
     };
 
+    const fetchLocations = async () => {
+      try {
+        const response = await api.get('api/locations');
+        console.log('Fetched locations:', response.data);
+        setLocations(response.data);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get('api/categories');
+        console.log('Fetched categories:', response.data);
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
     fetchConcerts();
+    fetchLocations();
+    fetchCategories();
   }, []);
 
   const filteredConcerts = concerts.filter(concert => {
@@ -52,7 +90,7 @@ export default function Explore() {
       imageUrl: concert.imageUrl,
       alt: concert.name,
       name: concert.name,
-      onClick: () => router.push(`/concertdetail?id=${concert.id}`), // Redirect to concert detail
+      onClick: () => router.push(`/concertdetail/${concert.id}`), // Menggunakan params alih-alih query
     }));
   };
 
@@ -79,46 +117,80 @@ export default function Explore() {
           <h2 className="text-2xl font-bold flex items-center">
             <FaMapMarkerAlt className="mr-2" /> Locations
           </h2>
-          <ul className="space-y-2 mt-2">
-            {locations.map((location, index) => (
-              <li
-                key={index}
-                onClick={() => setSelectedLocation(location.name)}
-                className={`cursor-pointer transition duration-300 ${selectedLocation === location.name ? 'text-blue-600' : ''}`}
-              >
-                {location.name}
-              </li>
-            ))}
-            <li
-              onClick={() => setSelectedLocation(null)}
-              className={`cursor-pointer transition duration-300 ${selectedLocation === null ? 'text-blue-600' : ''}`}
-            >
-              All Locations
-            </li>
-          </ul>
+          <Menu as="div" className="relative inline-block w-full">
+            <Menu.Button className="w-full bg-white border border-gray-300 p-2 rounded shadow-sm">
+              {selectedLocation ? selectedLocation : 'All Locations'}
+            </Menu.Button>
+            <Menu.Items className="absolute w-full mt-2 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    onClick={() => setSelectedLocation(null)}
+                    className={`w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}
+                  >
+                    All Locations
+                  </button>
+                )}
+              </Menu.Item>
+              {locations.map((location) => (
+                <Menu.Item key={location.id}>
+                  {({ active }) => (
+                    <button
+                      onClick={() => setSelectedLocation(location.name)}
+                      className={`w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}
+                    >
+                      {location.name}
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
+            </Menu.Items>
+          </Menu>
         </div>
         <div>
           <h2 className="text-2xl font-bold flex items-center">
             <FaTags className="mr-2" /> Categories
           </h2>
-          <ul className="space-y-2 mt-2">
-            {categories.map((category, index) => (
-              <li
-                key={index}
-                onClick={() => setSelectedCategory(category.name)}
-                className={`cursor-pointer transition duration-300 ${selectedCategory === category.name ? 'text-blue-600' : ''}`}
-              >
-                {category.name}
-              </li>
-            ))}
-            <li
-              onClick={() => setSelectedCategory(null)}
-              className={`cursor-pointer transition duration-300 ${selectedCategory === null ? 'text-blue-600' : ''}`}
-            >
-              All Categories
-            </li>
-          </ul>
+          <Menu as="div" className="relative inline-block w-full">
+            <Menu.Button className="w-full bg-white border border-gray-300 p-2 rounded shadow-sm">
+              {selectedCategory ? selectedCategory : 'All Categories'}
+            </Menu.Button>
+            <Menu.Items className="absolute w-full mt-2 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    className={`w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}
+                  >
+                    All Categories
+                  </button>
+                )}
+              </Menu.Item>
+              {categories.map((category) => (
+                <Menu.Item key={category.id}>
+                  {({ active }) => (
+                    <button
+                      onClick={() => setSelectedCategory(category.name)}
+                      className={`w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}
+                    >
+                      {category.name}
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
+            </Menu.Items>
+          </Menu>
         </div>
+        {user?.role === 'ADMIN' && (
+          <div className="mt-4">
+            <button
+              onClick={() => router.push('/createconcert')}
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center justify-center"
+            >
+              <FaPlus className="mr-2" /> Add Concert
+            </button>
+          </div>
+        )}
       </aside>
       <main className="w-3/4 px-4 py-6 bg-white shadow-lg">
         <CategorySlider slides={metalConcerts} title="Upcoming Metal Concerts" titleColor="black" />
@@ -128,22 +200,3 @@ export default function Explore() {
     </div>
   );
 }
-
-const locations = [
-  { name: 'Jakarta' },
-  { name: 'Bandung' },
-  { name: 'Surabaya' },
-  { name: 'Yogyakarta' },
-  { name: 'Bali' },
-  { name: 'Padang' },
-  { name: 'Medan' },
-  { name: 'Lampung' },
-  { name: 'Malang' },
-  { name: 'Makassar' },
-];
-
-const categories = [
-  { name: 'Metal' },
-  { name: 'Electric Dance Music' },
-  { name: 'Pop' },
-];
