@@ -42,6 +42,7 @@ export const Header = () => {
                 <span className="hover:text-gray-400 transition duration-300 cursor-pointer">Explore</span>
               </Link>
             </li>
+            
             {isAuthenticated ? (
               <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button className="flex items-center space-x-2">

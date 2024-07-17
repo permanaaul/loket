@@ -1,8 +1,7 @@
-// ConcertDetail.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 
 interface Concert {
@@ -21,20 +20,19 @@ interface Concert {
       name: string;
       price: number;
     };
-    availableSeats: number; // Tambahkan jumlah kursi tersedia
+    availableSeats: number;
   }>;
 }
 
 export default function ConcertDetail() {
   const [concert, setConcert] = useState<Concert | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const concertId = searchParams.get('id');
+  const { id } = router.query;
 
   useEffect(() => {
     const fetchConcert = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${concertId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${id}`);
         console.log('Fetched concert:', response.data); // Log data
         setConcert(response.data);
       } catch (error) {
@@ -42,10 +40,10 @@ export default function ConcertDetail() {
       }
     };
 
-    if (concertId) {
+    if (id) {
       fetchConcert();
     }
-  }, [concertId]);
+  }, [id]);
 
   if (!concert) {
     return <div>Loading...</div>;

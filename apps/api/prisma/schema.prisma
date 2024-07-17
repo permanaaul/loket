@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   password  String
   wallet    Float    @default(0.0)
+  role      Role     @default(CUSTOMER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -71,3 +72,7 @@ model ConcertTicket {
   @@map("concert_tickets")
 }
 
+enum Role {
+  ADMIN
+  CUSTOMER
+}

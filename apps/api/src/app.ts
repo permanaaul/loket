@@ -4,6 +4,8 @@ import { PORT } from './config';
 import authRouter from './routers/auth.router';
 import concertRouter from './routers/concert.router';
 import walletRouter from './routers/wallet.router';
+import locationRouter from './routers/location.router';
+import categoryRouter from './routers/category.router';
 
 export default class App {
   private app: Express;
@@ -48,8 +50,10 @@ export default class App {
     });
 
     this.app.use('/api/auth', authRouter);
-    this.app.use('/api', concertRouter); // Sesuaikan route dengan path '/api'
-    this.app.use('/api/wallet', walletRouter); // Pastikan route ini sudah benar
+    this.app.use('/api', concertRouter);
+    this.app.use('/api/wallet', walletRouter);
+    this.app.use('/api', locationRouter);
+    this.app.use('/api', categoryRouter);
   }
 
   public start(): void {
