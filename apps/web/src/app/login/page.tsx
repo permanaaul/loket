@@ -1,22 +1,29 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Gunakan next/navigation
-import api from '@/utils/api'; // Sesuaikan jalur impor dengan konfigurasi tsconfig.json
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/authSlice';
+import api from '@/utils/api';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await api.post('/api/auth/login', { email, password });
+      const { token, user } = response.data;
+
+      localStorage.setItem('token', token);
+      dispatch(login(user));
       console.log('Login successful:', response.data);
       router.push('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error logging in:', error.response ? error.response.data : error.message);
       setError(error.response ? error.response.data.message : error.message);
     }

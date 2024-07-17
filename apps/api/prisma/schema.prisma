@@ -12,8 +12,62 @@ model User {
   username  String   @unique
   email     String   @unique
   password  String
+  wallet    Float    @default(0.0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users") // if you want to use snake_case format
+  @@map("users")
 }
+
+model Concert {
+  id          Int         @id @default(autoincrement())
+  name        String
+  imageUrl    String
+  date        DateTime
+  locationId  Int
+  categoryId  Int
+  location    Location    @relation(fields: [locationId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
+  concertTickets ConcertTicket[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("concerts")
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  name      String
+  concerts  Concert[]
+
+  @@map("locations")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  concerts  Concert[]
+
+  @@map("categories")
+}
+
+model TicketType {
+  id            Int             @id @default(autoincrement())
+  name          String
+  price         Float
+  concertTickets ConcertTicket[]
+
+  @@map("ticket_types")
+}
+
+model ConcertTicket {
+  id          Int       @id @default(autoincrement())
+  concertId   Int
+  ticketTypeId Int
+  availableSeats Int    
+  concert     Concert   @relation(fields: [concertId], references: [id])
+  ticketType  TicketType @relation(fields: [ticketTypeId], references: [id])
+
+  @@map("concert_tickets")
+}
+
