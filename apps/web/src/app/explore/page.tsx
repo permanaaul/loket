@@ -90,7 +90,7 @@ export default function Explore() {
       imageUrl: concert.imageUrl,
       alt: concert.name,
       name: concert.name,
-      onClick: () => router.push(`/concertdetail/${concert.id}`), // Menggunakan params alih-alih query
+      onClick: () => router.push(`/concertdetail?id=${concert.id}`),
     }));
   };
 

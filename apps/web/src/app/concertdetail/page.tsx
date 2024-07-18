@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 
 interface Concert {
@@ -26,24 +26,24 @@ interface Concert {
 
 export default function ConcertDetail() {
   const [concert, setConcert] = useState<Concert | null>(null);
-  const router = useRouter();
-  const { id } = router.query;
+  const searchParams = useSearchParams();
+  const concertId = searchParams.get('id');
 
   useEffect(() => {
     const fetchConcert = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${id}`);
-        console.log('Fetched concert:', response.data); // Log data
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${concertId}`);
+        console.log('Fetched concert:', response.data);
         setConcert(response.data);
       } catch (error) {
         console.error('Error fetching concert:', error);
       }
     };
 
-    if (id) {
+    if (concertId) {
       fetchConcert();
     }
-  }, [id]);
+  }, [concertId]);
 
   if (!concert) {
     return <div>Loading...</div>;

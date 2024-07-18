@@ -1,3 +1,4 @@
+// concert.controller.ts
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
@@ -55,10 +56,6 @@ export class ConcertController {
   public async createConcert(req: Request, res: Response): Promise<void> {
     const { name, imageUrl, date, locationId, categoryId } = req.body;
 
-    // Logging the received data
-    console.log('Received data:', { name, imageUrl, date, locationId, categoryId });
-
-    // Validating the data
     if (!name || !imageUrl || !date || !locationId || !categoryId) {
       res.status(400).json({ message: 'Invalid data' });
       return;
