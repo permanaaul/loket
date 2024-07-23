@@ -19,9 +19,7 @@ export default function RootLayout({
         <ClientProvider>
           <SessionProvider>
             <Header />
-            <main className="container mx-auto py-8">
-              {children}
-            </main>
+            <main className="container mx-auto py-8">{children}</main>
             <Footer />
           </SessionProvider>
         </ClientProvider>

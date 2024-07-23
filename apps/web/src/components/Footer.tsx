@@ -9,10 +9,26 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row md:items-center">
           <nav className="mb-4 md:mb-0 md:mr-8">
             <ul className="flex justify-center md:justify-start space-x-4">
-              <li><a href="#" className="hover:underline">Home</a></li>
-              <li><a href="#" className="hover:underline">About</a></li>
-              <li><a href="#" className="hover:underline">Services</a></li>
-              <li><a href="#" className="hover:underline">Contact</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Contact
+                </a>
+              </li>
             </ul>
           </nav>
           <div className="flex justify-center md:justify-start space-x-4">

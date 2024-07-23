@@ -7,6 +7,11 @@ import { authorize } from '../middleware/role.middleware';
 const router = Router();
 const walletController = new WalletController();
 
-router.post('/top-up', authenticateToken, authorize(['ADMIN', 'CUSTOMER']), walletController.topUpWallet);
+router.post(
+  '/top-up',
+  authenticateToken,
+  authorize(['ADMIN', 'CUSTOMER']),
+  walletController.topUpWallet
+);
 
 export default router;

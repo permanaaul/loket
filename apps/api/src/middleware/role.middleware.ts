@@ -1,24 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
+const secretKey = 'your_secret_key'; // Gantilah dengan kunci rahasia yang sebenarnya
 
 export const authorize = (roles: string[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const userId = (req as any).user?.userId;
-
-    if (!userId) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    });
+    try {
+      const decoded = jwt.verify(token, secretKey) as { userId: number; username: string; role: string };
 
-    if (!user || !roles.includes(user.role)) {
-      return res.status(403).json({ message: 'Forbidden' });
+      if (!roles.includes(decoded.role)) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+
+      (req as any).user = decoded; 
+      next();
+    } catch (error) {
+      return res.status(403).json({ message: 'Invalid token' });
     }
-
-    next();
   };
 };

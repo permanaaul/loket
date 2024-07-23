@@ -1,22 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/authSlice';
 import api from '@/utils/api';
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+const schema = yup.object().shape({
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
+});
+
+const Login: React.FC = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+    resolver: yupResolver(schema)
+  });
+  const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await api.post('/api/auth/login', { email, password });
+      const response = await api.post('/api/auth/login', data);
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
@@ -34,26 +47,26 @@ export default function Login() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-gray-700">Email</label>
             <input
+              {...register('email')}
               type="email"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
           <div className="mb-6">
             <label className="block text-gray-700">Password</label>
             <input
+              {...register('password')}
               type="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
           <button
             type="submit"
@@ -65,4 +78,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;

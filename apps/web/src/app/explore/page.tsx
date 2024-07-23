@@ -1,102 +1,50 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { FaSearch, FaMapMarkerAlt, FaTags, FaPlus } from 'react-icons/fa';
 import { Menu } from '@headlessui/react';
 import CategorySlider from '../../components/CategorySlider';
-import api from '../../utils/api';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-
-interface Concert {
-  id: number;
-  name: string;
-  imageUrl: string;
-  date: string;
-  location: {
-    name: string;
-  };
-  category: {
-    name: string;
-  };
-}
-
-interface Location {
-  id: number;
-  name: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { useExplore } from '@/hooks/useExplore';
+import { Concert, Location, Category } from '../../types';
 
 export default function Explore() {
-  const [concerts, setConcerts] = useState<Concert[]>([]);
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const {
+    concerts,
+    locations,
+    categories,
+    selectedLocation,
+    setSelectedLocation,
+    selectedCategory,
+    setSelectedCategory,
+    searchQuery,
+    setSearchQuery,
+  } = useExplore();
+
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  useEffect(() => {
-    const fetchConcerts = async () => {
-      try {
-        const response = await api.get('api/concerts');
-        console.log('Fetched concerts:', response.data);
-        setConcerts(response.data);
-      } catch (error) {
-        console.error('Error fetching concerts:', error);
-      }
-    };
-
-    const fetchLocations = async () => {
-      try {
-        const response = await api.get('api/locations');
-        console.log('Fetched locations:', response.data);
-        setLocations(response.data);
-      } catch (error) {
-        console.error('Error fetching locations:', error);
-      }
-    };
-
-    const fetchCategories = async () => {
-      try {
-        const response = await api.get('api/categories');
-        console.log('Fetched categories:', response.data);
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-
-    fetchConcerts();
-    fetchLocations();
-    fetchCategories();
-  }, []);
-
-  const filteredConcerts = concerts.filter(concert => {
-    const matchesLocation = selectedLocation ? concert.location.name === selectedLocation : true;
-    const matchesCategory = selectedCategory ? concert.category.name === selectedCategory : true;
-    const matchesSearchQuery = concert.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesLocation && matchesCategory && matchesSearchQuery;
-  });
-
   const mapToSlides = (concerts: Concert[]) => {
-    return concerts.map(concert => ({
+    return concerts.map((concert) => ({
       imageUrl: concert.imageUrl,
       alt: concert.name,
       name: concert.name,
-      onClick: () => router.push(`/concertdetail?id=${concert.id}`),
+      onClick: () => router.push(`/concertdetail/${concert.id}`),
     }));
   };
 
-  const metalConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Metal'));
-  const edmConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Electric Dance Music'));
-  const popConcerts = mapToSlides(filteredConcerts.filter(concert => concert.category.name === 'Pop'));
+  const metalConcerts = mapToSlides(
+    concerts.filter((concert) => concert.category.name === 'Metal')
+  );
+  const edmConcerts = mapToSlides(
+    concerts.filter(
+      (concert) => concert.category.name === 'Electric Dance Music'
+    )
+  );
+  const popConcerts = mapToSlides(
+    concerts.filter((concert) => concert.category.name === 'Pop')
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -193,9 +141,21 @@ export default function Explore() {
         )}
       </aside>
       <main className="w-3/4 px-4 py-6 bg-white shadow-lg">
-        <CategorySlider slides={metalConcerts} title="Upcoming Metal Concerts" titleColor="black" />
-        <CategorySlider slides={edmConcerts} title="Upcoming EDM Concerts" titleColor="black" />
-        <CategorySlider slides={popConcerts} title="Upcoming Pop Concerts" titleColor="black" />
+        <CategorySlider
+          slides={metalConcerts}
+          title="Upcoming Metal Concerts"
+          titleColor="black"
+        />
+        <CategorySlider
+          slides={edmConcerts}
+          title="Upcoming EDM Concerts"
+          titleColor="black"
+        />
+        <CategorySlider
+          slides={popConcerts}
+          title="Upcoming Pop Concerts"
+          titleColor="black"
+        />
       </main>
     </div>
   );

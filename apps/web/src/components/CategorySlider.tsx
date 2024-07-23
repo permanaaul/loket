@@ -17,20 +17,22 @@ interface CategorySliderProps {
   titleColor?: string;
 }
 
-const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleColor = 'white' }) => {
+const CategorySlider: React.FC<CategorySliderProps> = ({
+  slides,
+  title,
+  titleColor = 'white',
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slidesToShow = 4; // Number of slides visible at a time
   const totalSlides = slides.length;
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + slidesToShow) % totalSlides
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % totalSlides);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex - slidesToShow + totalSlides) % totalSlides
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - slidesToShow + totalSlides) % totalSlides
     );
   };
 
@@ -40,7 +42,12 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
 
   return (
     <div className="mt-8">
-      <h2 className={`text-3xl font-bold mb-6 text-center`} style={{ color: titleColor }}>{title}</h2>
+      <h2
+        className={`text-3xl font-bold mb-6 text-center`}
+        style={{ color: titleColor }}
+      >
+        {title}
+      </h2>
       <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
@@ -64,7 +71,9 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ slides, title, titleCol
                     priority
                   />
                 </div>
-                <h3 className="text-xl font-bold text-center text-white">{slide.name}</h3>
+                <h3 className="text-xl font-bold text-center text-white">
+                  {slide.name}
+                </h3>
               </div>
             </div>
           ))}

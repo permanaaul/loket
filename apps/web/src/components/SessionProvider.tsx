@@ -11,17 +11,18 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      api.get('/api/auth/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(response => {
-        const user = response.data;
-        dispatch(login(user));
-      })
-      .catch(error => {
-        console.error('Failed to restore session:', error);
-        localStorage.removeItem('token'); // Hapus token yang tidak valid
-      });
+      api
+        .get('/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          const user = response.data;
+          dispatch(login(user));
+        })
+        .catch((error) => {
+          console.error('Failed to restore session:', error);
+          localStorage.removeItem('token'); // Hapus token yang tidak valid
+        });
     }
   }, [dispatch]);
 

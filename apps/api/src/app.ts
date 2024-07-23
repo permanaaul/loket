@@ -34,14 +34,16 @@ export default class App {
     });
 
     // error
-    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
-        console.error('Error:', err.stack);
-        res.status(500).send('Error!');
-      } else {
-        next();
+    this.app.use(
+      (err: Error, req: Request, res: Response, next: NextFunction) => {
+        if (req.path.includes('/api/')) {
+          console.error('Error:', err.stack);
+          res.status(500).send('Error!');
+        } else {
+          next();
+        }
       }
-    });
+    );
   }
 
   private routes(): void {
@@ -50,10 +52,10 @@ export default class App {
     });
 
     this.app.use('/api/auth', authRouter);
-    this.app.use('/api', concertRouter);
+    this.app.use('/api/concerts', concertRouter); 
     this.app.use('/api/wallet', walletRouter);
-    this.app.use('/api', locationRouter);
-    this.app.use('/api', categoryRouter);
+    this.app.use('/api/locations', locationRouter);
+    this.app.use('/api/categories', categoryRouter);
   }
 
   public start(): void {

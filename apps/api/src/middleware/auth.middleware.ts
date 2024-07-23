@@ -4,7 +4,11 @@ import jwt from 'jsonwebtoken';
 
 const secretKey = 'your_secret_key'; // Gantilah dengan kunci rahasia yang sebenarnya
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
