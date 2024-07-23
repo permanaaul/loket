@@ -1,6 +1,5 @@
 module.exports = {
-    images: {
-      domains: ['localhost'],
-    },
-  };
-  
+  images: {
+    domains: ['localhost'],
+  },
+};

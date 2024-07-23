@@ -1,38 +1,21 @@
+// apps/web/src/app/concertdetail/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import axios from 'axios';
-
-interface Concert {
-  id: number;
-  name: string;
-  imageUrl: string;
-  date: string;
-  location: {
-    name: string;
-  };
-  category: {
-    name: string;
-  };
-  concertTickets: Array<{
-    ticketType: {
-      name: string;
-      price: number;
-    };
-    availableSeats: number;
-  }>;
-}
+import { Concert } from '../../../types'; // Pastikan Anda mengimpor tipe Concert dari path yang benar
 
 export default function ConcertDetail() {
   const [concert, setConcert] = useState<Concert | null>(null);
-  const searchParams = useSearchParams();
-  const concertId = searchParams.get('id');
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchConcert = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${concertId}`);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}concerts/${id}`
+        );
         console.log('Fetched concert:', response.data);
         setConcert(response.data);
       } catch (error) {
@@ -40,10 +23,10 @@ export default function ConcertDetail() {
       }
     };
 
-    if (concertId) {
+    if (id) {
       fetchConcert();
     }
-  }, [concertId]);
+  }, [id]);
 
   if (!concert) {
     return <div>Loading...</div>;
@@ -67,13 +50,14 @@ export default function ConcertDetail() {
         <p className="text-xl mb-4">{concert.location.name}</p>
         <h2 className="text-2xl font-bold mt-6 mb-4">Ticket Types</h2>
         <ul className="space-y-2">
-          {concert.concertTickets && concert.concertTickets.map((ticket, index) => (
-            <li key={index} className="flex justify-between border-b py-2">
-              <span>{ticket.ticketType.name}</span>
-              <span>IDR {ticket.ticketType.price.toLocaleString()}</span>
-              <span>{ticket.availableSeats} seats available</span>
-            </li>
-          ))}
+          {concert.concertTickets &&
+            concert.concertTickets.map((ticket, index) => (
+              <li key={index} className="flex justify-between border-b py-2">
+                <span>{ticket.ticketType.name}</span>
+                <span>IDR {ticket.ticketType.price.toLocaleString()}</span>
+                <span>{ticket.availableSeats} seats available</span>
+              </li>
+            ))}
         </ul>
         <div className="border-t mt-6 pt-6">
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">

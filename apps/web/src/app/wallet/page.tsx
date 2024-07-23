@@ -42,10 +42,13 @@ const Wallet = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Wallet</h1>
         <p className="text-xl mb-4">
-          Current Balance: IDR {user?.wallet ? user.wallet.toLocaleString() : '0'}
+          Current Balance: IDR{' '}
+          {user?.wallet ? user.wallet.toLocaleString() : '0'}
         </p>
         <div className="mb-4">
-          <label className="block text-lg font-medium mb-2">Top Up Amount</label>
+          <label className="block text-lg font-medium mb-2">
+            Top Up Amount
+          </label>
           <input
             type="number"
             value={amount ?? ''}
@@ -60,7 +63,11 @@ const Wallet = () => {
           Top Up
         </button>
         {message && (
-          <p className={`mt-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>{message}</p>
+          <p
+            className={`mt-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}
+          >
+            {message}
+          </p>
         )}
       </div>
     </div>

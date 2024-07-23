@@ -1,8 +1,6 @@
 // concert.controller.ts
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '@/utils/prismaClient';
 
 export class ConcertController {
   public async getConcerts(req: Request, res: Response): Promise<void> {
@@ -21,7 +19,12 @@ export class ConcertController {
       });
       res.status(200).json(concerts);
     } catch (error) {
-      res.status(500).json({ message: 'Failed to get concerts', error: (error as Error).message });
+      res
+        .status(500)
+        .json({
+          message: 'Failed to get concerts',
+          error: (error as Error).message,
+        });
     }
   }
 
@@ -49,7 +52,12 @@ export class ConcertController {
 
       res.status(200).json(concert);
     } catch (error) {
-      res.status(500).json({ message: 'Failed to get concert', error: (error as Error).message });
+      res
+        .status(500)
+        .json({
+          message: 'Failed to get concert',
+          error: (error as Error).message,
+        });
     }
   }
 
@@ -74,7 +82,12 @@ export class ConcertController {
 
       res.status(201).json(concert);
     } catch (error) {
-      res.status(500).json({ message: 'Failed to create concert', error: (error as Error).message });
+      res
+        .status(500)
+        .json({
+          message: 'Failed to create concert',
+          error: (error as Error).message,
+        });
     }
   }
 }

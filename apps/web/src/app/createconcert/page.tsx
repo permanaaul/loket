@@ -9,7 +9,7 @@ import api from '@/utils/api';
 const CreateConcert = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const router = useRouter();
-  
+
   const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [date, setDate] = useState('');
@@ -37,7 +37,10 @@ const CreateConcert = () => {
       console.log('Concert created successfully:', response.data);
       router.push('/explore');
     } catch (error: any) {
-      console.error('Error creating concert:', error.response ? error.response.data : error.message);
+      console.error(
+        'Error creating concert:',
+        error.response ? error.response.data : error.message
+      );
       setError(error.response ? error.response.data.message : error.message);
     }
   };

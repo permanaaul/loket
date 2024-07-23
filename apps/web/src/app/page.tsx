@@ -19,13 +19,28 @@ export default function Home() {
     { src: '/images/bannerloket.jpg', alt: 'Loket Music Festival' },
     { src: '/images/bannerloket2.jpg', alt: 'Loket Music Event' },
     { src: '/images/bannerpop.jpg', alt: 'Pop Concert' },
-    { src: '/images/bannershawnmendes.jpg', alt: 'Shawn Mendes' }
+    { src: '/images/bannershawnmendes.jpg', alt: 'Shawn Mendes' },
   ];
 
   const popularConcerts = [
-    { src: '/images/bannermartingarrix.jpg', alt: 'Martin Garrix', name: 'Martin Garrix', rank: 1 },
-    { src: '/images/bannera7x2.jpg', alt: 'Avenged Sevenfold', name: 'Avenged Sevenfold', rank: 2 },
-    { src: '/images/bannershawnmendes.jpg', alt: 'Shawn Mendes', name: 'Shawn Mendes', rank: 3 }
+    {
+      src: '/images/bannermartingarrix.jpg',
+      alt: 'Martin Garrix',
+      name: 'Martin Garrix',
+      rank: 1,
+    },
+    {
+      src: '/images/bannera7x2.jpg',
+      alt: 'Avenged Sevenfold',
+      name: 'Avenged Sevenfold',
+      rank: 2,
+    },
+    {
+      src: '/images/bannershawnmendes.jpg',
+      alt: 'Shawn Mendes',
+      name: 'Shawn Mendes',
+      rank: 3,
+    },
   ];
 
   const settings = {
@@ -40,9 +55,15 @@ export default function Home() {
 
   return (
     <div className="w-full bg-cover bg-center flex flex-col items-center justify-center p-10">
-      <h1 className="text-5xl font-bold text-black mt-8 mb-4">Welcome to Loket Musik</h1>
-      <p className="text-xl text-black mb-6">Your gateway to the best concerts</p>
-      <Slider {...settings} className="w-full max-w-7xl mb-12"> {/* Added margin bottom here */}
+      <h1 className="text-5xl font-bold text-black mt-8 mb-4">
+        Welcome to Loket Musik
+      </h1>
+      <p className="text-xl text-black mb-6">
+        Your gateway to the best concerts
+      </p>
+      <Slider {...settings} className="w-full max-w-7xl mb-12">
+        {' '}
+        {/* Added margin bottom here */}
         {banners.map((banner, index) => (
           <div key={index} className="w-full h-[500px] relative">
             <Image
@@ -55,12 +76,19 @@ export default function Home() {
         ))}
       </Slider>
 
-      <div className="w-screen bg-black py-8 mb-12"> {/* Added margin bottom here */}
+      <div className="w-screen bg-black py-8 mb-12">
+        {' '}
+        {/* Added margin bottom here */}
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-white mb-4 text-center">Paling Laku Keras!</h2>
+          <h2 className="text-3xl font-bold text-white mb-4 text-center">
+            Paling Laku Keras!
+          </h2>
           <div className="flex justify-around items-center">
             {popularConcerts.map((concert, index) => (
-              <div key={index} className="relative text-center mx-4 flex flex-col items-center">
+              <div
+                key={index}
+                className="relative text-center mx-4 flex flex-col items-center"
+              >
                 <div className="text-7xl font-bold text-white absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                   {concert.rank}
                 </div>
@@ -81,7 +109,9 @@ export default function Home() {
 
       <div className="w-screen py-8">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">Highlight Concert</h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">
+            Highlight Concert
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">
               <div className="relative w-full h-0 pb-[56.25%] mb-4">
@@ -103,12 +133,14 @@ export default function Home() {
                   className="absolute top-0 left-0"
                   config={{
                     youtube: {
-                      playerVars: { end: 4152 }
-                    }
+                      playerVars: { end: 4152 },
+                    },
                   }}
                 />
               </div>
-              <p className="text-xl font-bold text-black">Bring Me The Horizon</p>
+              <p className="text-xl font-bold text-black">
+                Bring Me The Horizon
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <div className="relative w-full h-0 pb-[56.25%] mb-4">
@@ -119,8 +151,8 @@ export default function Home() {
                   className="absolute top-0 left-0"
                   config={{
                     youtube: {
-                      playerVars: { end: 141 }
-                    }
+                      playerVars: { end: 141 },
+                    },
                   }}
                 />
               </div>
