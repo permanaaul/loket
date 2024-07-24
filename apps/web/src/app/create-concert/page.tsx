@@ -51,7 +51,7 @@ const CreateConcert = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Create Concert</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
-          {/* Form fields for concert creation */}
+         
           <div className="mb-4">
             <label className="block text-gray-700">Name</label>
             <input

@@ -1,4 +1,3 @@
-// apps/web/src/app/concertdetail/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -33,8 +32,8 @@ export default function ConcertDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <aside className="w-1/4 bg-white shadow-lg p-4 border border-gray-300 rounded-md">
+    <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+      <aside className="lg:w-1/4 bg-white shadow-lg p-4 border border-gray-300 rounded-md mb-4 lg:mb-0">
         <div className="relative w-full h-auto mb-4">
           <img
             src={concert.imageUrl}
@@ -44,7 +43,7 @@ export default function ConcertDetail() {
         </div>
         <h2 className="text-xl font-bold text-center">{concert.name}</h2>
       </aside>
-      <main className="w-3/4 px-4 py-6 bg-white shadow-lg border border-gray-300 rounded-md ml-4">
+      <main className="lg:w-3/4 px-4 py-6 bg-white shadow-lg border border-gray-300 rounded-md lg:ml-4">
         <h1 className="text-3xl font-bold mb-4">{concert.name}</h1>
         <p className="text-xl mb-4">{concert.date}</p>
         <p className="text-xl mb-4">{concert.location.name}</p>

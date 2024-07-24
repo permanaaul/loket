@@ -68,8 +68,8 @@ export default function Explore() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <aside className="w-1/4 bg-white shadow-lg p-4 space-y-6">
+    <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+      <aside className="lg:w-1/4 bg-white shadow-lg p-4 space-y-6">
         <div>
           <h2 className="text-2xl font-bold flex items-center mb-2">
             <FaSearch className="mr-2" /> Search
@@ -210,7 +210,7 @@ export default function Explore() {
           </div>
         )}
       </aside>
-      <main className="w-3/4 px-4 py-6 bg-white shadow-lg">
+      <main className="lg:w-3/4 px-4 py-6 bg-white shadow-lg">
         <CategorySlider
           slides={metalConcerts}
           title="Upcoming Metal Concerts"

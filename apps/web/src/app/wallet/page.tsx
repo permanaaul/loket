@@ -11,28 +11,33 @@ const Wallet = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [amount, setAmount] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState<boolean | null>(null); // State for success or failure message
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const dispatch = useDispatch();
 
   const handleTopUp = async () => {
     if (amount === null || amount <= 0) {
-      setMessage('Please enter a valid amount');
+      setMessage('Entry Amount');
       setIsSuccess(false);
       return;
     }
 
     try {
-      const response = await api.post('api/wallet/topup', {
+      const token = localStorage.getItem('token'); 
+      const response = await api.post('api/wallet/top-up', {
         userId: user?.id,
         amount,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
       });
 
-      setMessage('Top up successful');
+      setMessage('Top up berhasil');
       setIsSuccess(true);
-      dispatch(setUser(response.data)); // Update user in redux store
+      dispatch(setUser(response.data));
     } catch (error) {
       console.error('Top up error:', error);
-      setMessage('Top up failed. Please try again.');
+      setMessage('Top up gagal. Silakan coba lagi.');
       setIsSuccess(false);
     }
   };
@@ -42,12 +47,12 @@ const Wallet = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Wallet</h1>
         <p className="text-xl mb-4">
-          Current Balance: IDR{' '}
+          Amount: IDR{' '}
           {user?.wallet ? user.wallet.toLocaleString() : '0'}
         </p>
         <div className="mb-4">
           <label className="block text-lg font-medium mb-2">
-            Top Up Amount
+            Top Up
           </label>
           <input
             type="number"
