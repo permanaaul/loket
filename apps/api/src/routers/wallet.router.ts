@@ -1,4 +1,3 @@
-//web/api/routers/wallet.router.ts
 import { Router } from 'express';
 import { WalletController } from '../controllers/wallet.controller';
 import { authenticateToken } from '../middleware/auth.middleware';

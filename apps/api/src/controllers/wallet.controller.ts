@@ -13,12 +13,11 @@ export class WalletController {
 
       res.status(200).json(user);
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: 'Failed to top up wallet',
-          error: (error as Error).message,
-        });
+      console.error('Error during wallet top-up:', error);
+      res.status(500).json({
+        message: 'Failed to top up wallet',
+        error: (error as Error).message,
+      });
     }
   }
 }

@@ -1,8 +1,8 @@
-//web/api/middleware/auth.middleware.ts
+// web/api/middleware/auth.middleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const secretKey = 'your_secret_key'; // Gantilah dengan kunci rahasia yang sebenarnya
+const secretKey = 'your_secret_key'; 
 
 export const authenticateToken = (
   req: Request,
