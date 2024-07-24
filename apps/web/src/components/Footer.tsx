@@ -1,54 +1,98 @@
 export const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-gray-800 text-white py-10">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <div className="text-center md:text-left">
-          <h2 className="text-xl font-bold mb-4">My App</h2>
-          <p>&copy; 2024 My App. All rights reserved.</p>
+        {/* Logo and Description */}
+        <div className="text-center md:text-left mb-6 md:mb-0">
+          <h2 className="text-2xl font-bold mb-2">My App</h2>
+          <p className="mb-4">&copy; 2024 My App. All rights reserved.</p>
+          <p className="text-gray-400">Connecting you to the best experiences and events around the world.</p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-center">
+
+        {/* Navigation Links */}
+        <div className="flex flex-col md:flex-row md:items-center mb-6 md:mb-0">
           <nav className="mb-4 md:mb-0 md:mr-8">
-            <ul className="flex justify-center md:justify-start space-x-4">
+            <ul className="flex flex-col md:flex-row justify-center md:justify-start space-y-2 md:space-y-0 md:space-x-4">
               <li>
-                <a href="#" className="hover:underline">
-                  Home
-                </a>
+                <a href="#" className="hover:underline">Home</a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  About
-                </a>
+                <a href="#" className="hover:underline">About</a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Services
-                </a>
+                <a href="#" className="hover:underline">Services</a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Contact
-                </a>
+                <a href="#" className="hover:underline">Contact</a>
               </li>
             </ul>
           </nav>
-          <div className="flex justify-center md:justify-start space-x-4">
-            <a href="#" aria-label="Facebook" className="hover:text-gray-400">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22.676 0H1.325C.592 0 0 .588 0 1.318v21.352C0 23.412.592 24 1.325 24H12.82v-9.294H9.691v-3.62h3.129V8.413c0-3.1 1.892-4.787 4.655-4.787 1.323 0 2.459.099 2.788.142v3.234l-1.916.001c-1.501 0-1.792.714-1.792 1.761v2.311h3.584l-.467 3.62h-3.117V24h6.116C23.407 24 24 23.412 24 22.67V1.318C24 .588 23.407 0 22.676 0"></path>
-              </svg>
-            </a>
-            <a href="#" aria-label="Twitter" className="hover:text-gray-400">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557a9.917 9.917 0 0 1-2.825.775A4.932 4.932 0 0 0 23.338 3.4a9.83 9.83 0 0 1-3.125 1.195A4.925 4.925 0 0 0 11.845 8.09a13.978 13.978 0 0 1-10.148-5.147 4.918 4.918 0 0 0 1.523 6.573A4.903 4.903 0 0 1 1.64 8.4v.062a4.926 4.926 0 0 0 3.946 4.827 4.902 4.902 0 0 1-2.212.085 4.928 4.928 0 0 0 4.6 3.417 9.869 9.869 0 0 1-6.104 2.104c-.397 0-.788-.023-1.175-.069a13.94 13.94 0 0 0 7.557 2.209c9.053 0 14-7.496 14-13.986 0-.214-.005-.428-.014-.641A9.986 9.986 0 0 0 24 4.557z"></path>
-              </svg>
-            </a>
-            <a href="#" aria-label="Instagram" className="hover:text-gray-400">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.98.24 2.682.514a5.374 5.374 0 0 1 1.94 1.264 5.374 5.374 0 0 1 1.264 1.94c.274.702.46 1.512.514 2.682.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.98-.514 2.682a5.374 5.374 0 0 1-1.264 1.94 5.374 5.374 0 0 1-1.94 1.264c-.702.274-1.512.46-2.682.514-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.98-.24-2.682-.514a5.374 5.374 0 0 1-1.94-1.264 5.374 5.374 0 0 1-1.264-1.94c-.274-.702-.46-1.512-.514-2.682-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.24-1.98.514-2.682a5.374 5.374 0 0 1 1.264-1.94 5.374 5.374 0 0 1 1.94-1.264c.702-.274 1.512-.46 2.682-.514 1.266-.058 1.646-.07 4.85-.07zm0-2.163C8.756 0 8.332.012 7.052.07 5.766.128 4.763.318 3.947.598a7.357 7.357 0 0 0-2.686 1.741A7.357 7.357 0 0 0 .598 5.97C.318 6.786.128 7.79.07 9.075.012 10.354 0 10.778 0 12s.012 1.646.07 2.925c.058 1.286.248 2.29.528 3.106a7.357 7.357 0 0 0 1.741 2.686 7.357 7.357 0 0 0 2.686 1.741c.816.28 1.82.47 3.106.528 1.279.058 1.703.07 2.925.07s1.646-.012 2.925-.07c1.286-.058 2.29-.248 3.106-.528a7.357 7.357 0 0 0 2.686-1.741 7.357 7.357 0 0 0 1.741-2.686c.28-.816.47-1.82.528-3.106.058-1.279.07-1.703.07-2.925s-.012-1.646-.07-2.925c-.058-1.286-.248-2.29-.528-3.106a7.357 7.357 0 0 0-1.741-2.686 7.357 7.357 0 0 0-2.686-1.741c-.816-.28-1.82-.47-3.106-.528C13.646.012 13.222 0 12 0z"></path>
-                <circle cx="12" cy="12" r="3.563"></circle>
-                <path d="M18.406 3.594a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"></path>
-              </svg>
-            </a>
+
+          {/* Contact Information */}
+          <div className="text-center md:text-left">
+            <p className="mb-1">Email: support@myapp.com</p>
+            <p className="mb-1">Phone: +1 234 567 8901</p>
+            <p>Address: 123 My App Street, City, Country</p>
+          </div>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="flex justify-center md:justify-start space-x-4">
+          <a href="#" aria-label="Facebook" className="hover:text-gray-400">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22.676 0H1.325C.592 0 0 .588 0 1.318v21.352C0 23.412.592 24 1.325 24H12.82v-9.294H9.691v-3.62h3.129V8.413c0-3.1 1.892-4.787 4.655-4.787 1.323 0 2.459.099 2.788.142v3.234l-1.916.001c-1.501 0-1.792.714-1.792 1.761v2.311h3.584l-.467 3.62h-3.117V24h6.116C23.407 24 24 23.412 24 22.67V1.318C24 .588 23.407 0 22.676 0"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter" className="hover:text-gray-400">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 4.557a9.917 9.917 0 0 1-2.825.775A4.932 4.932 0 0 0 23.338 3.4a9.83 9.83 0 0 1-3.125 1.195A4.925 4.925 0 0 0 11.845 8.09a13.978 13.978 0 0 1-10.148-5.147 4.918 4.918 0 0 0 1.523 6.573A4.903 4.903 0 0 1 1.64 8.4v.062a4.926 4.926 0 0 0 3.946 4.827 4.902 4.902 0 0 1-2.212.085 4.928 4.928 0 0 0 4.6 3.417 9.869 9.869 0 0 1-6.104 2.104c-.397 0-.788-.023-1.175-.069a13.94 13.94 0 0 0 7.557 2.209c9.053 0 14-7.496 14-13.986 0-.214-.005-.428-.014-.641A9.986 9.986 0 0 0 24 4.557z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram" className="hover:text-gray-400">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.98.24 2.682.514a5.374 5.374 0 0 1 1.94 1.264 5.374 5.374 0 0 1 1.264 1.94c.274.702.46 1.512.514 2.682.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.98-.514 2.682a5.374 5.374 0 0 1-1.264 1.94 5.374 5.374 0 0 1-1.94 1.264c-.702.274-1.512.46-2.682.514-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.98-.24-2.682-.514a5.374 5.374 0 0 1-1.94-1.264 5.374 5.374 0 0 1-1.264-1.94c-.274-.702-.46-1.512-.514-2.682-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.24-1.98.514-2.682a5.374 5.374 0 0 1 1.264-1.94 5.374 5.374 0 0 1 1.94-1.264c.702-.274 1.512-.46 2.682-.514 1.266-.058 1.646-.07 4.85-.07zm0-2.163C8.756 0 8.332.012 7.052.07 5.766.128 4.763.318 3.947.598a7.357 7.357 0 0 0-2.686 1.741A7.357 7.357 0 0 0 .598 5.97C.318 6.786.128 7.79.07 9.075.012 10.354 0 10.778 0 12s.012 1.646.07 2.925c.058 1.286.248 2.29.528 3.106a7.357 7.357 0 0 0 1.741 2.686 7.357 7.357 0 0 0 2.686 1.741c.816.28 1.82.47 3.106.528 1.279.058 1.703.07 2.925.07s1.646-.012 2.925-.07c1.286-.058 2.29-.248 3.106-.528a7.357 7.357 0 0 0 2.686-1.741 7.357 7.357 0 0 0 1.741-2.686c.28-.816.47-1.82.528-3.106.058-1.279.07-1.703.07-2.925s-.012-1.646-.07-2.925c-.058-1.286-.248-2.29-.528-3.106a7.357 7.357 0 0 0-1.741-2.686 7.357 7.357 0 0 0-2.686-1.741c-.816-.28-1.82-.47-3.106-.528C13.646.012 13.222 0 12 0z"></path>
+              <circle cx="12" cy="12" r="3.563"></circle>
+              <path d="M18.406 3.594a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      {/* Additional Links and Information */}
+      <div className="container mx-auto mt-8 border-t border-gray-700 pt-6">
+        <div className="flex flex-col md:flex-row justify-between">
+          <div className="mb-6 md:mb-0">
+            <h3 className="text-xl font-bold mb-2">More Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="hover:underline">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">Terms of Service</a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">FAQ</a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">Support</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-2">Stay Connected</h3>
+            <form className="flex flex-col md:flex-row">
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="px-3 py-2 mb-4 md:mb-0 md:mr-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500"
+              />
+              <button
+                type="submit"
+                className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Subscribe
+              </button>
+            </form>
           </div>
         </div>
       </div>

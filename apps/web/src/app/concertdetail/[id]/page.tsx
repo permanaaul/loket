@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-import { Concert } from '../../../types'; // Pastikan Anda mengimpor tipe Concert dari path yang benar
+import { Concert } from '../../../types'; 
 
 export default function ConcertDetail() {
   const [concert, setConcert] = useState<Concert | null>(null);
